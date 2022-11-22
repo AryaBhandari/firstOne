@@ -1,0 +1,29 @@
+{% extends 'master/base.html' %}
+{% block 'title' %}Sign in{% endblock %}
+{% block 'body' %}
+<div class="container">
+    <div class="col">
+        {% include 'components/messages.html' %}
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                Sign in
+                </div>
+                <div class="card-body">
+
+                  <form method="post">
+
+                      {{form.as_p}}
+                      {% csrf_token %}
+                      <hr/>
+                      <button type="submit" class="btn btn-primary" style="float:right">sign in</button>
+                  </form>
+                </div>
+            </div>
+            <p>haven't got an account? <a href="{% url 'signup' %}">signup now</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

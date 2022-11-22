@@ -1,0 +1,30 @@
+{% extends 'master/base.html' %}
+{% block 'title' %}Student details{% endblock %}
+{% block 'body' %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-6">
+
+            <div class="card text-center">
+              <div class="card-header">
+                Details
+              </div>
+                <form method="post">
+                  <div class="card-body">
+                      {{form.as_p}}
+                      {% csrf_token %}
+                  </div>
+                    <button type="submit" class="btn btn-primary">Accept</button>
+
+
+                </form>
+                <br>
+                <form method='post' action="{% url 'deleteuser' user.id %}">
+                    <button type="submit" class="btn btn-primary">reject</button>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

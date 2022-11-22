@@ -1,0 +1,60 @@
+{% extends 'master/base.html' %}
+{% load static %}
+{% block 'title' %}Paid History{% endblock %}
+{% block 'body' %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                   <h4>Paid History</h4>
+                </div>
+                <div class="card-body">
+                    <span style="float:right;" class="btn btn-primary" data-toggle="modal" data-target="#payementModal" >Add</span>
+                    {{std.fullname}} <br>
+                    Joined on {{std.joindate}}
+                    <table class="table">
+                <thead>
+                    <th>Date</th>
+                    <th>For</th>
+                    <th>Amount</th>
+                </thead>
+                <tbody>
+                {% for f in fee %}
+                <tr>
+
+                <td>{{f.paidAt}}</td>
+                <td>{{f.month}}</td>
+                <td>{{f.amountPaid}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="payementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <form method="post" action="#">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Payement</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {{form.as_p}}
+          {% csrf_token %}
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Post</button>
+      </div>
+    </div>
+      </form>
+  </div>
+</div>
+
+{% endblock %}

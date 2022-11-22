@@ -1,0 +1,38 @@
+{% extends 'master/base.html' %}
+{% load static %}
+{% block 'title' %}Paid History{% endblock %}
+{% block 'body' %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                   <h4>Paid History</h4>
+                </div>
+                <div class="card-body">
+                    {{std.fullname}} <br>
+                    Joined on {{std.joindate}}
+                    <table class="table">
+                <thead>
+                    <th>Date</th>
+                    <th>For</th>
+                    <th>Amount</th>
+                </thead>
+                <tbody>
+                {% for f in fee %}
+                <tr>
+
+                <td>{{f.paidAt}}</td>
+                <td>{{f.month}}</td>
+                <td>{{f.amountPaid}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

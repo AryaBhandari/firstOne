@@ -1,0 +1,25 @@
+{% extends 'master/base.html' %}
+{% block 'title' %}Sign up{% endblock %}
+{% block 'body' %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-6">
+            {% include 'components/messages.html' %}
+            <div class="card text-center">
+              <div class="card-header">
+                Sign up
+              </div>
+              <div class="card-body">
+                  <form method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      {{form.as_p}}
+
+
+                  <button type="submit" class="btn btn-primary">save</button>
+                  </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

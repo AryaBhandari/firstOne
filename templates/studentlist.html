@@ -1,0 +1,44 @@
+{% extends 'master/base.html' %}
+{% load static %}
+{% block 'title' %}Sign in{% endblock %}
+{% block 'body' %}
+<div class="container">
+<div class="row justify-content-md-center">
+            <div class="col-10">
+                <div class="card bg-light">
+                    <div class="card-header"><span id="studentlist" style="font-size:20px;">Students</span></div>
+                {% for s in std %}
+
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="col-4">
+                                  <div class="profile">
+                                      {% if s.profile %}
+                                        <img src="{{MEDIA_URL}}{{s.profile.url}}"class="profile" alt="profile">
+                                      {% else %}
+
+                                        <img src="{% static 'user.png' %}" alt="user" class="profile">
+                                      {% endif %}
+
+                                  </div>
+                              </div>
+                              <div class="col-4">
+                                  <span>{{s.fullname}}</span><span style="float:right;"><a href="{% url 'studentdetail' s.id %}">View Profile</a></span><br>
+                                  <span>{{s.permanentaddress}}</span><br>
+                                  <span><i class="bi bi-phone"></i> {{s.phoneno}}</span><br>
+                                  <span><i class="bi bi-envelope"></i> {{s.email}}</span><br>
+                                  <span>Room No:{% if s.roomno %}{{s.roomno}}{% else %}Not Alloted{% endif %}</span>
+                              </div>
+
+                          </div>
+                          <hr>
+                      </div>
+
+
+                {% endfor %}
+                    </div>
+            </div>
+        </div>
+</div>
+</div>
+{% endblock %}

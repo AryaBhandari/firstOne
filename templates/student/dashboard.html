@@ -1,0 +1,162 @@
+{% extends 'master/base.html' %}
+{% load static %}
+{% block 'title' %}Dashboard{% endblock %}
+{% block 'body' %}
+
+<div class="container">
+    <div class="col">
+
+         {% include 'components/messages.html' %}
+    </div>
+    <div class="row justify-content-md-center">
+
+
+
+        <div class="col-10">
+                    <div class="card bg-light">
+                      <div class="card-header dark" style="font-size:20px;" id="studentprofile">Profile<span><a href="{% url 'editprofile' std.id %}"><i class="bi bi-pencil" style="font-size:20px;float:right;"></i></a></span></div>
+                      <div class="card-body light">
+                          <div class="row">
+                              <div class="col-4">
+                                  <div class="profile">
+                                      {% if std.profile %}
+                                        <img src="{{MEDIA_URL}}{{std.profile.url}}"class="profile" alt="profile">
+                                      {% else %}
+
+                                        <img src="{% static 'user.png' %}" alt="user" class="profile">
+                                      {% endif %}
+                                        <div class="lowdiv" style="padding-left:40%; margin-top:-30%;">
+                                            <i class="bi bi-camera" data-toggle="modal" data-target="#studentprofileModal" style="color:red; font-size:35px;"> </i>
+
+                                        </div>
+                                  </div>
+                              </div>
+                              <div class="col-4">
+                                  <span>{{std.fullname}}</span><br>
+                                  <span>{{std.permanentaddress}}</span><br>
+                                  <span><i class="bi bi-phone"></i> {{std.phoneno}}</span><br>
+                                  <span><i class="bi bi-envelope"></i> {{std.email}}</span><br>
+                                  <span>Room No:{% if std.roomno %}{{std.roomno}}{% else %}Not Alloted{% endif %}</span>
+                              </div>
+                              <div class="col-4">
+                                  <span>Skills</span><span><i class="bi bi-plus" style="font-size:20px;float:right;" data-toggle="modal" data-target="#skillModal"></i></span>
+                                  <hr>
+                                    {% for s in skills %}
+                                        <span class="badge bg-warning">{{s.skills}} <a href="{% url 'removeskill' s.id  %}" style="color:red;">X</a></span>
+                                    {% endfor %}
+                              </div>
+                          </div>
+
+                      </div>
+                    </div>
+
+                <!-- <div class="col mb-4">
+                    <div class="card bg-light">
+                      <div class="card-body">
+                          <img src="{% static 'download.png' %}" alt="facebook" class="logo">
+                      </div>
+                    </div>
+                </div>-->
+
+        </div>
+
+
+
+    </div>
+    <br><br>
+    <div class="row">
+            {% include 'components/sidenav.html' %}
+        <div class="col-8">
+
+                <div class="col mb-4">
+                    <div class="card bg-light">
+                      <div class="card-body light" >
+                          <span style="font-size:20px;">Education:</span><span><i class="bi bi-plus" style="font-size:20px;float:right;" data-target="#educationModal" data-toggle="modal"></i></span>
+                            {% for edu in educations %}
+                                <div class="card">
+                                    <div class="card-header dark">
+                                        {{edu.course}} <span><a href="{% url 'editeducation' edu.id %}"><i class="bi bi-pencil"></i></a></span>
+                                        <!---<span><i class="bi bi-pencil" data-target="#experienceeditModal" data-toggle="modal"></i></span>-->
+                                        <span style="float:right"><a href="{% url 'removeeducation' edu.id %}" style="color:red;">X</a></span>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            {{edu.university}}
+                                        </h5>
+                                        <p class="card-text">{{edu.joinedYear}}-{% if edu.passedYear %}{{edu.passedYear}}{% else %}present{% endif %}</p>
+                                    </div>
+                                </div>
+                            <br>
+                            {% endfor %}
+                      </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="studentprofileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <form method="post" action="{% url 'changepimage' %}" enctype="multipart/form-data">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profile">Add Profile Image</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <input type="file" name="image">
+          {% csrf_token %}
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+      </form>
+  </div>
+</div>
+<div class="modal fade" id="educationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <form method="post" action="#">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edu">Add Education</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {{educationform.as_p}}
+          {% csrf_token %}
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+      </form>
+  </div>
+</div>
+<div class="modal fade" id="skillModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <form method="post" action="#">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Skill</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {{skillform.as_p}}
+          {% csrf_token %}
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+      </form>
+  </div>
+</div>
+
+{% endblock %}

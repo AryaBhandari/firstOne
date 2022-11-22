@@ -1,0 +1,80 @@
+{% extends 'master/base.html' %}
+{% load static %}
+{% block 'title' %}{{std.fullname}}{% endblock %}
+{% block 'body' %}
+<div class="container">
+
+    <div class="row justify-content-md-center">
+
+
+
+        <div class="col-10">
+                    <div class="card bg-light">
+                      <div class="card-header" style="font-size:20px;" id="studentprofile">Profile</div>
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="col-4">
+                                  <div class="profile">
+                                      {% if std.profile %}
+                                        <img src="{{MEDIA_URL}}{{std.profile.url}}"class="profile" alt="profile">
+                                      {% else %}
+
+                                        <img src="{% static 'user.png' %}" alt="user" class="profile">
+                                      {% endif %}
+
+                                  </div>
+                              </div>
+                              <div class="col-4">
+                                  <span>{{std.fullname}}</span><br>
+                                  <span>{{std.permanentaddress}}</span><br>
+                                  <span><i class="bi bi-phone"></i> {{std.phoneno}}</span><br>
+                                  <span><i class="bi bi-envelope"></i> {{std.email}}</span><br>
+                                  <span>Room No:{% if std.roomno %}{{std.roomno}}{% else %}Not Alloted{% endif %}</span>
+                              </div>
+                              <div class="col-4">
+                                  <span>Skills</span>
+                                  <hr>
+                                    {% for s in skills %}
+                                        <span class="badge bg-warning">{{s.skills}} </span>
+                                    {% endfor %}
+                              </div>
+                          </div>
+
+                      </div>
+                    </div>
+
+        </div>
+
+
+
+    </div>
+    <br><br>
+    <div class="row justify-content-md-center">
+
+        <div class="col-10">
+
+                <div class="col mb-4">
+                    <div class="card bg-light">
+                      <div class="card-body">
+                          <span style="font-size:20px;">Education:</span>
+                            {% for edu in educations %}
+                                <div class="card">
+                                    <div class="card-header">
+                                        {{edu.course}}
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            {{edu.university}}
+                                        </h5>
+                                        <p class="card-text">{{edu.joinedYear}}-{% if edu.passedYear %}{{edu.passedYear}}{% else %}present{% endif %}</p>
+                                    </div>
+                                </div>
+                            <br>
+                            {% endfor %}
+                      </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

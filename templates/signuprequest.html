@@ -1,0 +1,22 @@
+{% extends 'master/base.html' %}
+{% block 'title' %}Requests{% endblock %}
+{% block 'body' %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        {% include 'components/staffnav.html' %}
+        <div class="col-8">
+            {% include 'components/messages.html' %}
+            <div class="card">
+                <div class="card-header">Signup Requests:</div>
+                <div class="card-body">
+                    <ol>
+                        {% for s in sr %}
+                            <li>{{s.user.username}}<a href="{% url 'signupdetails' s.user.id %}"> View Details</a></li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

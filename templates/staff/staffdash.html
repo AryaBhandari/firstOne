@@ -1,0 +1,106 @@
+{% extends 'master/base.html' %}
+{% load static %}
+{% block 'title' %}Dashboard{% endblock %}
+{% block 'body' %}
+<div class="container">
+    <div class="col">
+
+         {% include 'components/messages.html' %}
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-10">
+            <div class="card bg-light">
+                <div class="card-header" style="font-size:20px;" id="staffprofile">
+                    Profile<span><a href="{% url 'editstfprofile' stf.id %}"><i class="bi bi-pencil" style="font-size:20px;float:right;"></i></a></span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="profile">
+                            {% if stf.profile %}
+                                <img src="{{MEDIA_URL}}{{stf.profile.url}}"class="profile" alt="profile">
+                            {% else %}
+                                <img src="{% static 'user.png' %}" alt="user" class="profile">
+                            {% endif %}
+                            <div class="lowdiv" style="padding-left:40%; margin-top:-30%;">
+                                <i class="bi bi-camera" data-toggle="modal" data-target="#staffprofileModal" style="color:red; font-size:35px;"> </i>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <span>{{stf.fullname}}</span><br>
+                            <span>{{stf.permanentaddress}}</span><br>
+                            <span><i class="bi bi-phone"></i> {{stf.phoneno}}</span><br>
+                            <span><i class="bi bi-envelope"></i> {{stf.email}}</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+            {% include 'components/staffnav.html' %}
+            <div class="col-8">
+                <div class="card bg-light">
+                    <div class="card-header"><span id="studentslist" style="font-size:20px;">Students</span></div>
+                {% for s in std %}
+
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="col-4">
+                                  <div class="profile">
+                                      {% if s.profile %}
+                                        <img src="{{MEDIA_URL}}{{s.profile.url}}"class="profile" alt="profile">
+                                      {% else %}
+
+                                        <img src="{% static 'user.png' %}" alt="user" class="profile">
+                                      {% endif %}
+
+                                  </div>
+                              </div>
+                              <div class="col-4">
+                                  <span>{{s.fullname}}</span><span style="float:right;"><a href="{% url 'editprofile' s.id %}">Edit</a>|<a href="{% url 'deleteuser' s.user.id %}">del</a></span><br>
+                                  <span>{{s.permanentaddress}}</span><br>
+                                  <span><i class="bi bi-phone"></i> {{s.phoneno}}</span><br>
+                                  <span><i class="bi bi-envelope"></i> {{s.email}}</span>
+                              </div>
+                              <div class="col-4">
+                                  <span style="float:right"><a href="{% url 'stfpaidhistory' s.id %}">Paid History</a></span><br>
+                                  <span style="float:right">Room No:{% if s.roomno %}{{s.roomno}}{% else %}Not Alloted{% endif %}</span>
+                              </div>
+                          </div>
+                          <hr>
+                      </div>
+
+
+                {% endfor %}
+                    </div>
+            </div>
+        </div>
+</div>
+
+<div class="modal fade" id="staffprofileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <form method="post" action="{% url 'changesimage' %}" enctype="multipart/form-data">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profile">Add Profile Image</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <input type="file" name="image">
+          {% csrf_token %}
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+      </form>
+  </div>
+</div>
+
+{% endblock %}
